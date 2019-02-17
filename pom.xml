@@ -14,7 +14,7 @@
 
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-storage-blob</artifactId>
-    <version>10.4.0</version>
+    <version>10.4.0-dremio-r0</version>
 
     <name>Azure Storage Blob</name>
     <description>The Azure Storage Java Blob library.</description>
@@ -115,6 +115,44 @@
         <testSourceDirectory>src/test/java</testSourceDirectory>
 
         <plugins>
+          <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-source-plugin</artifactId>
+  <executions>
+    <execution>
+      <id>attach-sources</id>
+      <goals>
+        <goal>jar</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <includes>
+                  <include>com.microsoft.azure:azure-storage-blob:10.4.0-dremio-r0</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>com.microsoft.azure.storage</pattern>
+                  <shadedPattern>com.microsoft.azure.storage.v10</shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>          
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

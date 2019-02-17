@@ -26,7 +26,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-final class Utility {
+public final class Utility {
 
     static final DateTimeFormatter RFC1123GMTDateFormatter =
             DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ROOT).withZone(ZoneId.of("GMT"));
@@ -242,7 +242,7 @@ final class Utility {
         }
     }
 
-    static <T> Single<T> addErrorWrappingToSingle(Single<T> s) {
+    public static <T> Single<T> addErrorWrappingToSingle(Single<T> s) {
         return s.onErrorResumeNext(e -> {
             if (e instanceof StorageErrorException) {
                 return Single.error(new StorageException((StorageErrorException) e));
